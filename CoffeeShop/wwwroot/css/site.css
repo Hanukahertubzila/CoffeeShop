@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.card-img {
+    height: 15.625rem;
+    width: auto;
+}
+
+.card-top {
+    height: 5rem;
+    width: auto;
+}
+
+.card-description {
+    height: 6rem;
+    width: auto;
+}
+
+.card-bottom {
+    height: 6rem;
+    width: auto;
+}
+
+.img-product {
+    max-width: 40rem;
+    height: auto;
+}
+
+.accordion-item {
+    --bs-accordion-btn-focus-border-color: #ffffff;
+    --bs-accordion-btn-focus-box-shadow: none;
+    --bs-accordion-border-width: 0;
+}
+
+.error-list ul {
+    list-style: none;
+}
+
+.img-text {
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    font-weight: 500;
+}
+
+.footer-gap {
+    margin-bottom: 10rem;
+}
+
+.zesty-font {
+    font-family: 'Lobster', sans-serif;
+}

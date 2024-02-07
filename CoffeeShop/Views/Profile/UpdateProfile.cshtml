@@ -1,0 +1,43 @@
+﻿@using CoffeeShop.Domain.Entity;
+@model Profile
+
+@{
+    ViewData["Title"] = "Редактировать профиль";
+    Layout = "_Layout";
+}
+
+<section>
+    <div class="container mt-5">
+        <div class="card w-50 mx-auto border-2 border-dark border-bottom-0 border-top-0">
+            <div class="card-title text-center">
+                <h2 class="display-5 my-2">Ваш профиль</h2>
+            </div>
+            <div class="card-body">
+                <form asp-controller="Profile" asp-action="UpdateProfile">
+                    <div asp-validation-summary="All" class="text-danger text-center lead error-list me-4"></div>
+                    <div class="row">
+                        <label asp-for="Name" class="text-center lead mb-1">Имя: </label>
+                    </div>
+                    <div class="row">
+                        <input asp-for="Name" type="text" class="w-50 mx-auto mb-3 py-1" />
+                    </div>
+                    <div class="row">
+                        <label asp-for="Address" class="text-center lead mb-1">Адрес: </label>
+                    </div>
+                    <div class="row">
+                        <input asp-for="Address" type="text" class="w-50 mx-auto mb-4 py-1" />
+                    </div>
+                    <div class="row">
+                        <label asp-for="BirthDate" class="text-center lead mb-1">Дата рождения: </label>
+                    </div>
+                    <div class="row">
+                        <input asp-for="BirthDate" type="date" class="w-50 mx-auto mb-4 py-1" />
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-outline-danger lead w-25" type="submit">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

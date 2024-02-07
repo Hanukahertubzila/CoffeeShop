@@ -1,0 +1,157 @@
+﻿@using CoffeeShop.Domain.Entity;
+@model List<List<Product>>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Меню";
+}
+<section class="mb-5">
+    @for (var j = 0; j < Model.Count; j++)
+    {
+        var carouselId = "carousel" + j;
+        var carouselIdTarget = "#carousel" + j;
+        <div class="row py-3">
+            <div class="col-2 text-start" role="button" data-bs-target="@carouselIdTarget" data-bs-slide="prev">
+                <i class="ri-arrow-left-wide-line text-danger display-5"></i>
+            </div>
+            <h2 class="col-8 h2 text-center mt-2 text-danger zesty-font">@Model[j][0].Category</h2>
+            <div class="col-2 text-end" role="button" data-bs-target="@carouselIdTarget" data-bs-slide="next">
+                <i class="ri-arrow-right-wide-line text-danger display-5"></i>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row  mb-4">
+                <div class="col-12">
+                    <div id="@carouselId" class="carousel slide h-100" data-bs-interval="5000">
+                        <div class="carousel-inner">
+                            @{
+                                var currentItems = 0;
+                                var slide = "carousel-item active";
+                            }
+                            @while (currentItems < Model[j].Count)
+                            {
+                                <div class="@slide">
+                                    <div class="row">
+                                        @for (int i = currentItems; i < currentItems + 3 && i < Model[j].Count; i++)
+                                        {
+                                            <div class="col-4">
+                                                <div class="card h-100 mx-2 border-3 border-dark border-start-0 border-end-0 border-top-0 bg-light">
+                                                    <img src="@Model[j][i].ImageURL" alt="@Model[j][i].Name" class="card-img">
+                                                    <div class="card-body py-2">
+                                                        <div class="card-top">
+                                                            <a asp-controller="Product" asp-action="GetProductById" asp-route-id="@Model[j][i].Id" class="display-6 text-decoration-none text-danger">
+                                                                <h4 class="h4 card-title text-center">@Model[j][i].Name</h4>
+                                                            </a>
+                                                            <div class="text-muted card-subtitle text-center align-text-top">@Model[j][i].Weight @Model[j][i].Units</div>
+                                                        </div>
+                                                        <div class="card-description">
+                                                            <p class="card-text d-none d-lg-block">@Model[j][i].Description</p>
+                                                        </div>
+                                                        <div class="card-bottom text-center">
+                                                            @{
+                                                                string productName = Model[j][i].Name;
+                                                                decimal price = Model[j][i].Price;
+                                                                string productPrice = price.ToString("C");
+                                                                if (Model[j][i].Discount > 0)
+                                                                {
+                                                                    decimal discount = Model[j][i].Discount;
+                                                                    price = Model[j][i].Price - Model[j][i].Price * (discount / 100);
+                                                                    productPrice = price.ToString("C");
+                                                                        <div class="row mb-3">
+                                                                            <div class="lead small col-5 text-muted text-decoration-line-through text-end">@Model[j][i].Price.ToString("C") </div>
+                                                                            <div class="lead col-7 text-danger text-start">@price.ToString("C")</div>
+                                                                        </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                        <div class="lead text-danger mb-3">@Model[j][i].Price.ToString("C")</div>
+                                                                }
+                                                            }
+                                                            @if (User.Identity.IsAuthenticated)
+                                                            {
+                                                                <button class="btn btn-outline-danger mt-auto" data-bs-toggle="modal" data-bs-target="#Modal" onclick='setModal("@productPrice", "@productName"); getSelectedId(@Model[j][i].Id)'>Добавить в корзину</button>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a class="btn btn-outline-danger mt-auto" asp-action="Login" asp-controller="Account">Добавить в корзину</a>
+                                                            }                  
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>                                           
+                                        }
+                                    </div>
+                                </div>
+                                slide = "carousel-item";
+                                currentItems += 3;                               
+                            }
+                            <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="ModalLabel"></h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <button class="col-1 btn btn-outline-dark ms-3 me-2 mb-2" id="add-btn-el">
+                                                    <i class="ri-add-line"></i>
+                                                </button>
+                                                <button class="col-1 btn btn-outline-dark me-3 mb-2" id="substract-btn-el">
+                                                    <i class="ri-subtract-fill"></i>
+                                                </button>
+                                                <div class="col-4">
+                                                    <h3 class="h3 lead mt-1" id="quantity-el"></h3>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h3 class="h3 lead mt-1" id="final-price-el"></h3>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Закрыть</button>
+                                                <button type="button" class="btn btn-outline-danger" id="to-basket-btn-el" onclick="addToBasket()">Добавить в корзину</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</section>
+
+@section Scripts
+    {
+    <script defer>
+        let selectedId = 0
+
+        function getSelectedId(id) {
+            selectedId = id
+        }
+
+        function addToBasket() {
+            const model = {
+                ProductId: selectedId,
+                Quantity: quantity
+            }
+            $.ajax({
+                url: "@Url.Action("AddPosition", "OrderPosition")",
+                type: "Post",
+                data: model,
+                success: function (response) {
+                    const modal = bootstrap.Modal.getOrCreateInstance("#Modal")
+                    modal.hide()
+                },
+                error: function (response) {
+                    const modal = bootstrap.Modal.getOrCreateInstance("#Modal")
+                    modal.hide()
+                }
+            })
+        }
+    </script>
+}
+
+<script src="~/js/basket.js"></script>

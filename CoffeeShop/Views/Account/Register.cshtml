@@ -1,0 +1,44 @@
+﻿@using CoffeeShop.Domain.ViewModels;
+@model UserRegisterViewModel
+
+@{
+    ViewData["Title"] = "Регистрация";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5">
+    <div class="card w-50 mx-auto border-2 border-dark border-bottom-0 border-top-0">
+        <div class="card-title text-center">
+            <h2 class="display-5 my-2">Зарегистрироваться</h2>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Account" asp-action="Register">
+                <div asp-validation-summary="All" class="text-danger text-center lead error-list me-4"></div>
+                <div class="row">
+                    <label asp-for="Email" class="text-center lead mb-1">Email</label>
+                </div>
+                <div class="row">
+                    <input asp-for="Email" type="email" class="w-50 mx-auto mb-3 py-1" />
+                </div>
+                <div class="row">
+                    <label asp-for="Password" class="text-center lead mb-1">Пароль</label>
+                </div>
+                <div class="row">
+                    <input asp-for="Password" type="password" class="w-50 mx-auto mb-4 py-1" />
+                </div>
+                <div class="row">
+                    <label asp-for="PasswordConfirmation" class="text-center lead mb-1">Введите пароль повторно</label>
+                </div>
+                <div class="row">
+                    <input asp-for="PasswordConfirmation" type="password" class="w-50 mx-auto mb-4 py-1" />
+                </div>
+                <div class="row">
+                    <a asp-controller="Account" asp-action="Login" class="text-muted mb-4 text-center">Войти в аккаунт</a>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-outline-danger lead" type="submit">Зарегестрироваться</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

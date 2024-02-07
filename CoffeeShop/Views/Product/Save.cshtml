@@ -1,0 +1,135 @@
+﻿@using CoffeeShop.Domain.Entity;
+@model Product
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = Model is null ? "Добавить товар" : "Изменить товар";
+}
+
+<section>
+    <div class="container">
+        <form asp-action="Save" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger text-center lead error-list me-4"></div>
+            <input asp-for="Id" hidden />
+            <div class="row my-2">
+                <label asp-for="Name" class="text-center lead">Название</label>
+            </div>
+            <div class="row">
+                <input asp-for="Name" type="text" class="py-1 w-25 mx-auto mb-3"/>
+            </div>
+            <div class="row">
+                <label asp-for="Description" class="text-center lead">Описание</label>
+            </div>
+            <div class="row">
+                <input asp-for="Description" type="text" class="py-1 w-25 mx-auto mb-3" />
+            </div>
+            <div class="row">
+                <label asp-for="ImageURL" class="text-center lead">Ссылка на изображение</label>
+            </div>
+            <div class="row">
+                <input asp-for="ImageURL" type="text" class="py-1 w-25 mx-auto mb-3" />
+            </div>
+            <div class="row">
+                <label asp-for="Category" class="text-center lead">Категория</label>
+            </div>
+            <div class="row">
+                <input asp-for="Category" type="text" class="py-1 w-25 mx-auto mb-3" />
+            </div>
+            <div class="row">
+                <label asp-for="Price" class="text-center lead">Цена</label>
+            </div>
+            <div class="row">
+                <input asp-for="Price" type="text" class="py-1 w-25 mx-auto mb-3" />
+            </div>
+            <div class="row">
+                <label asp-for="Discount" class="text-center lead">Скидка в %</label>
+            </div>
+            <div class="row">
+                <input asp-for="Discount" type="text" class="py-1 w-25 mx-auto mb-3" />
+            </div>
+            <div class="row">
+                <div class="col-6 d-flex justify-content-end">
+                    <label asp-for="Weight" class="lead text-end me-5">Вес</label>
+                </div>
+                <div class="col-6 d-flex justify-content-start">
+                    <label asp-for="Units" class="lead text-start ms-5">Единицы</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 d-flex justify-content-end">
+                    <input asp-for="Weight" type="text" class="py-1 w-25 text-start mb-3" />
+                </div>
+                <div class="col-6 d-flex justify-content-start">
+                    <input asp-for="Units" type="" class="py-1 w-25 text-start mb-3" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6 d-flex justify-content-end">
+                    <label asp-for="InStock" class="lead">В наличии:</label>
+                </div>
+                <div class="col-6 d-flex justify-content-start">
+                    <input asp-for="InStock" type="checkbox" data-id="Id" class="form-check-input border-2 border-dark mt-2"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 d-flex justify-content-end">
+                    <label asp-for="Proteins" class="lead">Белки:</label>
+                </div>
+                <div class="col-6 d-flex justify-content-start">
+                    <input asp-for="Proteins" type="text" class="py-1 w-25 mb-3 text-start" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 d-flex justify-content-end">
+                    <label asp-for="Fats" class="lead">Жиры:</label>
+                </div>
+                <div class="col-6 d-flex justify-content-start">
+                    <input asp-for="Fats" type="text" class="py-1 w-25 mb-3 text-start" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 d-flex justify-content-end">
+                    <label asp-for="Carbohydrates" class="lead">Углеводы:</label>
+                </div>
+                <div class="col-6 d-flex justify-content-start">
+                    <input asp-for="Carbohydrates" type="text" class="py-1 w-25 mb-3 text-start" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6 d-flex justify-content-end">
+                    <label asp-for="Lactose" class="lead text-end me-5">Лактоза:</label>
+                </div>
+                <div class="col-6 d-flex justify-content-start">
+                    <input asp-for="Lactose" type="checkbox" data-id="Id" class="form-check-input border-2 border-dark mt-2" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6 d-flex justify-content-end">
+                    <label asp-for="Caffeine" class="lead text-end me-5">Кофеин:</label>
+                </div>
+                <div class="col-6 d-flex justify-content-start">
+                    <input asp-for="Caffeine" type="checkbox" data-id="Id" class="form-check-input border-2 border-dark mt-2" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6 d-flex justify-content-end">
+                    <label asp-for="Gluten" class="lead text-end me-5">Глютен:</label>
+                </div>
+                <div class="col-6 d-flex justify-content-start">
+                    <input asp-for="Gluten" type="checkbox" data-id="Id" class="form-check-input border-2 border-dark mt-2" />
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-6 d-flex justify-content-end">
+                    <label asp-for="Sugar" class="lead text-end me-5">Сахар:</label>
+                </div>
+                <div class="col-6 d-flex justify-content-start">
+                    <input asp-for="Sugar" type="checkbox" data-id="Id" class="form-check-input border-2 border-dark mt-2" />
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn-outline-danger w-25 mx-auto text-center mb-5">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</section>

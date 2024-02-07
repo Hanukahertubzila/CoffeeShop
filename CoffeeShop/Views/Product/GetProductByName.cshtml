@@ -1,0 +1,226 @@
+﻿@using CoffeeShop.Domain.Entity;
+@using CoffeeShop.Domain.Enums;
+@model Product
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = Model.Name;
+}
+
+<section class="Description">
+    <div class="container mt-5">
+        <div class="text-center">
+            <img src="@Model.ImageURL" alt="@Model.Name" class="img-product mb-2" />
+            <h2 class="display-5 mb-2">@Model.Name</h2>
+            <div class="text-muted mb-3">@Model.Weight @Model.Units</div>
+            <p class="lead w-50 mx-auto mb-3">@Model.Description</p>
+            <div class="accordion mb-3" id="accordionPfc">
+                <div class="accordion-item w-50 h-50 mx-auto">
+                    <h4 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed d-block" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            <div class="text-decoration-underline text-center text-muted">
+                                Посмотреть БЖУ
+                            </div>
+                        </button>
+                    </h4>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionPfc">
+                        <div class="accordion-body h-100">
+                            <div class="row">
+                                <div class="col-6 justify-content-end d-flex">
+                                    <table class="table table-striped table-borderless mx-auto">
+                                        @{
+                                            var calories = Model.Proteins * 4 + Model.Fats * 9 + Model.Carbohydrates * 4;
+                                        }
+                                        <tr>
+                                            <td class="lead">Белки</td>
+                                            <td class="lead">@Model.Proteins</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lead">Жиры</td>
+                                            <td class="lead">@Model.Fats</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lead">Углеводы</td>
+                                            <td class="lead">@Model.Carbohydrates</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lead">Калории</td>
+                                            <td class="lead">@calories</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6 justify-content-start d-flex">
+                                    <table class="table table-striped table-borderless mx-auto">
+                                        <tr>
+                                            <td class="lead">Лактоза</td>
+                                            <td class="lead">
+                                                @{
+                                                    if (Model.Lactose)
+                                                    {
+                                                        <i class="ri-check-line text-dark"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="ri-close-line text-dark"></i>
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lead">Глютен</td>
+                                            <td class="lead">
+                                                @{
+                                                    if (Model.Gluten)
+                                                    {
+                                                        <i class="ri-check-line text-dark"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="ri-close-line text-dark"></i>
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lead">Сахар</td>
+                                            <td class="lead">
+                                                @{
+                                                    if (Model.Sugar)
+                                                    {
+                                                        <i class="ri-check-line text-dark"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="ri-close-line text-dark"></i>
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lead">Кофеин</td>
+                                            <td class="lead">
+                                                @{
+                                                    if (Model.Caffeine)
+                                                    {
+                                                        <i class="ri-check-line text-dark"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="ri-close-line text-dark"></i>
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (User.Identity.IsAuthenticated && User.IsInRole(Role.Moderator.ToString()))
+            {
+                <div class="row">
+                    <div class="col-6">
+                        <div class="justify-content-end d-flex mb-3 me-1">
+                            <form asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" formmethod="delete">
+                                <button class="lead btn btn-outline-danger" type="submit">Удалить товар</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="justify-content-start d-flex mb-3 ms-1">
+                            <a asp-controller="Product" asp-action="Save" asp-route-id="@Model.Id">
+                                <div class="lead btn btn-outline-success" type="submit">Изменить товар</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+            @{
+                string productName = Model.Name;
+                decimal price = Model.Price;
+                string productPrice = price.ToString("C");
+                if (Model.Discount > 0)
+                {
+                    decimal discount = Model.Discount;
+                    price = Model.Price - Model.Price * (discount / 100);
+                    productPrice = price.ToString("C");
+                    <div class="row mb-3">
+                        <div class="lead small col-6 text-muted text-decoration-line-through text-end">@Model.Price.ToString("C") </div>
+                        <div class="lead col-6 text-danger text-start">@price.ToString("C")</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="lead text-danger mb-3">@Model.Price.ToString("C")</div>
+                }
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                <button class="btn btn-outline-danger footer-gap" data-bs-toggle="modal" data-bs-target="#Modal" onclick='setModal("@productPrice", "@productName")'>Добавить в корзину</button>
+            }
+            else
+            {
+                <a class="btn btn-outline-danger mt-auto footer-gap" asp-action="Login" asp-controller="Account">Добавить в корзину</a>
+            }           
+            <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="ModalLabel">@Model.Name</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <button class="col-1 btn btn-outline-dark ms-3 me-2" id="add-btn-el">
+                                    <i class="ri-add-line"></i>
+                                </button>
+                                <button class="col-1 btn btn-outline-dark me-3" id="substract-btn-el">
+                                    <i class="ri-subtract-fill"></i>
+                                </button>
+                                <div class="col-4">
+                                    <h3 class="h3 lead" id="quantity-el"></h3>
+                                </div>
+                                <div class="col-4">
+                                    <h3 class="h3 lead" id="final-price-el"></h3>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Закрыть</button>
+                                <button type="button" class="btn btn-outline-danger" id="to-basket-btn-el" onclick="addToBasket(@Model.Id)">Добавить в корзину</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script defer>
+        function addToBasket(id) {
+            const model = {
+                ProductId: id,
+                Quantity: quantity
+            }
+            $.ajax({
+                url: "@Url.Action("AddPosition", "OrderPosition")",
+                type: "Post",
+                data: model,
+                success: function (response) {
+                    const modal = bootstrap.Modal.getOrCreateInstance("#Modal")
+                    modal.hide()
+                },
+                error: function (response) {
+                    const modal = bootstrap.Modal.getOrCreateInstance("#Modal")
+                    modal.hide()
+                }
+            })
+        }
+    </script>
+}
+
+<script src="~/js/basket.js"></script>

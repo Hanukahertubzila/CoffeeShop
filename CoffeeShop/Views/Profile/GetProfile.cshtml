@@ -1,0 +1,48 @@
+﻿@using CoffeeShop.Domain.ViewModels;
+
+@model ProfileWithOrdersViewModel
+
+@{
+    ViewData["Title"] = "Профиль";
+    Layout = "_Layout";
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="container col-6 position-relative text-center">
+                <img alt="Bonuses" src="~/img/BonusesCard.jpg" class="img-fluid rounded-5"/>
+                <h3 class="display-5 img-text text-white">Ваши баллы: @Model.Profile.Bonuses</h3>
+            </div>
+        </div>
+        <h2 class="display-6 text-center mt-4 mb-2">@Model.Profile.Name</h2>
+        <h5 class="text-muted text-center mb-4">@Model.Profile.BirthDate.ToShortDateString()</h5>
+        <p class="lead text-center">Адрес: @Model.Profile.Address</p>
+        <h4 class="text-center h4 mb-3">История заказов:</h4>
+        <div class="row">
+            <div class="container col-6">
+                <ul class="mb-3 list-inline list-group">
+                    @for (int i = Model.Orders.Count - 1; i >= 0; i--)
+                    {
+                        var number = Model.Orders.Count - i;
+                        <li class="my-1 list-group-item">
+                            <div class="row">
+                                <div class="col-4 text-center lead">@number</div>
+                                <div class="col-4 text-center lead">@Model.Orders[i].DateCreated.ToShortDateString()</div>
+                                <div class="col-4 text-center lead">@Model.Orders[i].TotalPrice ₽</div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <a asp-action="UpdateProfile" asp-controller="Profile" asp-route-id="@Model.Profile.Id" class="btn btn-outline-danger mx-auto w-auto mb-3">
+                Редактировать профиль
+            </a>
+        </div>
+        <form asp-action="Logout" asp-controller="Account" formmethod="post" class="text-center mb-3">
+            <button class="btn btn-outline-danger footer-gap" type="submit">Выйти из аккаунта</button>
+        </form>
+    </div>
+</section>

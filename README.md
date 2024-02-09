@@ -1,6 +1,6 @@
 <h2>CoffeeShop</h2>
 <p>
-  E-commerce сайт кофейни для заказа кофе, тортов, выпечки и тд. Стэк: Asp net core 6, EF Core, C#, HTML5, Bootstrap 5, CSS3, JavaScript, Ajax. 
+  E-commerce сайт кофейни для заказа кофе, тортов, выпечки и тд. Стэк: Asp net core 6, EF Core, C#, логгирование NLog, HTML5, Bootstrap 5, CSS3, JavaScript, Ajax. 
 </p>
 <h3>Главная страница</h3>
 <img src="https://github.com/Hanukahertubzila/CoffeeShop/assets/159309150/d7d0de5f-a8ef-45b1-982d-be914d6cb726" alt="CoffeeShop">
